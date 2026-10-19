@@ -34,5 +34,19 @@ ylabel('F1n/mg, u1n/mg'),legend('F_1','u_1','location','best')
 subplot(326), plot(t,[state(:,8),u_actu(:,2)]), grid
 ylabel('F2n/mg, u2n/mg'),legend('F_2','u_2','location','best')
 if size(state,2)==10  % cas commande par platitude
-  % ...
+  y1_real = state(:,1) - param(4)*sin(state(:,5));
+  y2_real = state(:,3) + param(4)*cos(state(:,5));
+
+  figure(4), clf, set(gcf,'NumberTitle','off','Name','Sortie plate vs Centre de masse')
+    subplot(211)
+    plot(t, state(:,1), 'r', t, y1_real, 'b--'), grid
+    xlabel('t (s)'), ylabel('x (m)')
+    legend('Centre de masse (x)', 'Sortie plate (y_1)', 'location', 'best')
+    title('Évolution de x vs y_1')
+    
+    subplot(212)
+    plot(t, state(:,3), 'r', t, y2_real, 'b--'), grid
+    xlabel('t (s)'), ylabel('z (m)')
+    legend('Centre de masse (z)', 'Sortie plate (y_2)', 'location', 'best')
+    title('Évolution de z vs y_2')
 end

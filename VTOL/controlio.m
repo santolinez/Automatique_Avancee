@@ -23,9 +23,33 @@ epsilon =  param_(4);
 gain1 = gains_(1,1:2);
 gain2 = gains_(2,1:2);
 %%% A modifier %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-w1 = 0;
-w2 = 0;
-v = [0;0];
+x_ref = jet(1);
+dx_ref = jet(2);
+d2x_ref = jet(3);
+
+z_ref = jet(6);
+dz_ref = jet(7);
+d2z_ref = jet(8);
+
+x = X(1);
+dx = X(2);
+z = X(3);
+dz = X(4);
+theta = X(5);
+dtheta = X(6);
+
+k1 = gain2(1);
+k2 = gain2(2);
+l1 = gain1(1);
+l2 = gain1(2);
+
+w1 = d2x_ref + k1 * (x_ref - x) + k2 * (dx_ref - dx);
+w2 = d2z_ref + l1 * (z_ref - z) + l2 * (dz_ref - dz);
+
+v1 = (w2 + g) * cos(theta) - w1 * sin(theta);
+v2 = (1 / epsilon) * (w1 * cos(theta) + (w2 + g) * sin(theta));
+
+v = [v1; v2];
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 u = [a*v(1)+b*v(2); a*v(1)-b*v(2)]/2;
 end
